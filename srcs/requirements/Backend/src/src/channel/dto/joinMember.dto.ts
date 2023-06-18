@@ -10,4 +10,9 @@ export class JoinMemberDto {
     @ApiProperty()
     @IsOptional()
     password: string
+
+
+    @ApiProperty()
+    @IsOptional()
+    private?: string
 }

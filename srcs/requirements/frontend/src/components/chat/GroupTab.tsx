@@ -77,6 +77,7 @@ const GroupTab = ({
     return (
         <GroupTabStyle selected={selected}>
             <div className="chat-tab__image">
+            
                 <img
                     src={groupMessage.profileImage}
                     alt="Group Profile"

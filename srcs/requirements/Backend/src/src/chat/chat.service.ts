@@ -161,8 +161,8 @@ export class ChatService {
                 throw new HttpException("Private chat doesn't exist", 404);
             }
         }
-    }
-
+	}
+	
     /* sendPrivateMessage(senderId: string, receiverId: string, message: string) */
     async sendPrivateMessage(
         client: Socket,

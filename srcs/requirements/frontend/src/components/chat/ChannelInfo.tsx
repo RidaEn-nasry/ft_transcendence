@@ -141,7 +141,7 @@ const ChannelInfo = ({ open, setOpen, selectedGroupChat, socket, connected }: pr
     }, [connected])
 
     const buttonStyle = "py-2 px-4  shadow-md shadow-white/10 hover:scale-105 transition-all ease-in-out duration-200 rounded-md text-blue-gray-50 text-lg w-[8rem]"
-
+    console.log("channel", channel);
     return (
         <div className='flex flex-col p-6 gap-6'>
             <Drawer open={open} onClose={() => setOpen(false)} placement='right' className='flex flex-col !bg-[#6e6a6a] !max-w-[30rem]'>
@@ -167,8 +167,12 @@ const ChannelInfo = ({ open, setOpen, selectedGroupChat, socket, connected }: pr
                         <AiOutlineLink className='text-xl ' />
                     </span>
                     <span className='flex-1 flex flex-col text-left p-1 gap-1'>
-                        <span className='font-bold '>
-                            https://discord.gg/2Y8bQ4
+                        {/* making it copyable
+                         */}
+                        <span className='font-bold text-lg' onClick={() => {
+                            navigator.clipboard.writeText(channel?.chann_type === "Private" ? channel?.id :  "https://discord.gg/2Y8bQ4" )
+                        }}>
+                            {channel?.chann_type === "Private" ? channel?.id :  "https://discord.gg/2Y8bQ4" }
                         </span>
                         <span className='text-xs text-gray-400'>
                             Click to copy

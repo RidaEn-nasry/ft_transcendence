@@ -18,6 +18,29 @@ export class ChannelService {
             throw new ForbiddenException("There is no ID in cookies");
         await this.UserService.getUser(userId)
         try {
+            // if (dto.status === 'Private' ) {
+            //     // generating the unique id for the channel
+            //     let id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            //     while (await this.prisma.channel.findUnique({ where: { id: id } }) !== null) {
+            //         id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            //     }
+            //     const channel = await this.prisma.channel.create({
+            //         data: {
+            //             name: dto.name,
+            //             chann_type: dto.status,
+            //             password: dto.password,
+            //             owner_id: userId,
+            //             limit_members: -1,
+            //             description: dto.description,
+            //             avatar: dto.avatar,
+            //             privateChannelUID: id               
+            // }
+            //     })
+            //     this.UserService.addChannel(channel.id, channel.name, userId, "Owner");
+            //     console.log("private channel is created" , channel);
+            //     return channel;
+            // }
+
             const channel = await this.prisma.channel.create({
                 data: {
                     name: dto.name,
@@ -97,15 +120,17 @@ export class ChannelService {
     async addMember(channelId: string, dto: JoinMemberDto, addChannel: boolean = true) {
         await this.UserService.getUser(dto.userId);
         const channel = await this.getChannelById(channelId);
+        console.log("channel you want to join is : ", channel);
         try {
             if (channel.chann_type === "Secret" && channel.password !== dto.password)
-                throw new ForbiddenException("Wrong password");
+                throw new ForbiddenException("Wrong password"); 
             const memberTab = await this.prisma.membersTab.create({
                 data: {
                     member_id: dto.userId,
                     channel_id: channelId,
                 }
             })
+
             if (addChannel === true)
                 await this.UserService.addChannel(channel.id, channel.name, dto.userId, "Member");
             return memberTab;
@@ -296,7 +321,7 @@ export class ChannelService {
                     }
                 }
             })
-            await this.addMember(channelId, { userId: dto.userId, password: channel.password }, true);
+            await this.addMember(channelId, { userId: dto.userId, password: channel.password}, true);
             return unbanMember;
         } catch (error) {
             if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025")

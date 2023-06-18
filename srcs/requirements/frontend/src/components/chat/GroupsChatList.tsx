@@ -7,6 +7,9 @@ import { useGlobalContext } from '../../provider/AppContext';
 import GroupTab from './GroupTab';
 import Cookies from "js-cookie";
 import { GetJoindChannels } from "../../api/axios";
+import { Card, CardHeader, Dialog } from '@material-tailwind/react';
+import axios from 'axios';
+
 
 
 const GroupChatListStyle = styled.div`
@@ -87,6 +90,7 @@ const GroupChatList = ({ setSelectedGroupChat, setSelectedChat, socket, connecte
     }
   }, [joinToGroup]);
 
+
   useEffect(() => {
     if (connected) {
       socket.current.on("newGroupMessage", (data: any) => {
@@ -108,15 +112,75 @@ const GroupChatList = ({ setSelectedGroupChat, setSelectedChat, socket, connecte
     return () => {
       socket.current.off("newGroupMessage");
     }
+
+
+
   }, [connected]);
+
+  const [joinPrivateChannel, setJoinPrivateChannel] = useState(false);
+  const [privateChannelId, setPrivateChannelId] = useState("");
+  const handleJoinPrivateChannel = () => {
+    
+    if (privateChannelId === "") return;
+    // change later
+    const HOSTNAME = "http://localhost:3000";
+    axios.post(
+    `${HOSTNAME}/api/v1/Channels/${privateChannelId}/members`, 
+    { userId: Cookies.get("id") },
+    ).then((res) => {
+      setGroupChatRooms({
+        ...groupChatRooms,
+        
+      });
+      console.log(res);
+
+    }).catch((err) => {
+      console.log(err);
+    });
+    setJoinPrivateChannel(!joinPrivateChannel);
+    setPrivateChannelId("");
+  };
+
 
   return (
     <GroupChatListStyle>
-      <div className="">
+      <div className="flex flex-row justify-between items-center">
         <h1 className="font-bold sm:text-2xl text-white text-xl flex justify-between">
           Groups
-          <Button onClick={() => setNewChat(!newChat)}>New</Button>
         </h1>
+        <div className="flex flex-row gap-2"> 
+          <Button onClick={() => setNewChat(!newChat)}>New</Button>
+          <Button onClick={() => setJoinPrivateChannel(!joinPrivateChannel)}>Join</Button>
+          </div>
+          <Dialog
+            size="sm"
+            open={joinPrivateChannel}
+            handler={setJoinPrivateChannel}
+            className="flex flex-col justify-center items-center max-w-sm p-5 bg-[#6e6a6a]"
+          >
+            <Card className="w-full max-w-sm p-5 bg-[#6e6a6a] 
+              shadow-none" > 
+                <h2 className="text-gray-200 text-2xl text-center mb-2">Join Private Channel</h2>
+              <div className="px-6">
+                <div className="flex flex-col gap-2">
+                  <input
+                    type="text"
+                    placeholder="Enter Channel ID"
+                    className="border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-gray-200
+                      bg-[#6e6a6a] text-gray-200 "
+                    value={privateChannelId}
+                    onChange={(e) => setPrivateChannelId(e.target.value)}
+                  />
+                  <Button
+                    className="bg-[#6e6a6a] text-gray-200
+                      hover:bg-gray-200 hover:text-gray-800"
+                    onClick={handleJoinPrivateChannel}
+                  >Join</Button>
+                </div>
+              </div>
+            </Card>
+          </Dialog>
+
         <CreateChannel
           setSelectedGroupChat={setSelectedGroupChat}
           show={newChat}
@@ -163,6 +227,8 @@ const GroupChatList = ({ setSelectedGroupChat, setSelectedChat, socket, connecte
                   groupChatRooms[groupChatRooms.length - 1].group_id ? (
                   <div className="h-px bg-[#B4ABAB] w-[99%] mx-auto mt-1.5 mb-1.5 opacity-60"></div>
                 ) : null}
+
+                
               </div>
             );
           })

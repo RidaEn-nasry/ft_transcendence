@@ -36,6 +36,7 @@ export class ChannelController{
     @Post(':id/members')
     // @UseGuards(AuthenticatedGuard)
     addMember(@Param('id') channelId: string, @Body() dto: JoinMemberDto){
+        console.log("addMember", dto);
         return this.ChannelService.addMember(channelId, dto)
     }
     

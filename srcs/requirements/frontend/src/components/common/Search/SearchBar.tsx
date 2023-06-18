@@ -305,10 +305,10 @@ const SearchBar = () => {
                                                         <div className="search-result-avatar w-full rounded-lg transition duration-200 ease-in-out hover:bg-[rgba(0,0,0,0.1)] cursor-pointer py-2">
                                                             <Link to={`/user/${user.id}`} className="flex flex-row justify-between items-center gap-4 w-full ">
                                                                 {/* uncomment later */}
-                                                                {/* <img src={user.avatar} alt="avatar" /> */}
                                                                 <div className="flex flex-row flex-start items-center gap-4 w-full">
 
-                                                                    <img src="https://www.w3schools.com/howto/img_avatar.png" alt="avatar" className="rounded-full w-10 h-10 ml-3" />
+                                                                <img src={user.avatar} alt="avatar" />
+                                                                    {/* <img src="https://www.w3schools.com/howto/img_avatar.png" alt="avatar" className="rounded-full w-10 h-10 ml-3" /> */}
                                                                     {/* </div> */}
                                                                     <div className="search-result-info ">
                                                                         <h1 className="text-xl font-bold ">{user.login}</h1>
@@ -355,8 +355,8 @@ const SearchBar = () => {
                                                             <Link to={`/user/${channel.id}`} className="flex flex-row flex-start items-center gap-4 w-full">
                                                                 <div className="search-result-avatar">
                                                                     {/* uncomment later */}
-                                                                    {/* <img src={channel.avatar} alt="avatar" className="rounded-full w-10 h-10" /> */}
-                                                                    <img src="https://www.w3schools.com/howto/img_avatar.png" alt="avatar" className="rounded-full w-10 h-10 ml-3" />
+                                                                    <img src={channel.avatar} alt="avatar" className="rounded-full w-10 h-10" />
+                                                                    {/* <img src="https://www.w3schools.com/howto/img_avatar.png" alt="avatar" className="rounded-full w-10 h-10 ml-3" /> */}
                                                                 </div>
                                                                 <div className="search-result-info">
                                                                     <h1 className="text-xl font-bold ">{channel.name}</h1>
