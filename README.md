@@ -1,6 +1,7 @@
 # ft_transcendence
 This project is about creating a multiplayer real-time ping-Pong game webapp with friends, invites, chat and many more.
 
+![pingpong](https://github.com/RidaEn-nasry/ft_transcendence/assets/65143740/49000809-bce7-435e-9e4d-c45f6f51fb04)
 
 # Overview
 Users can play Pong with others in a nice user interface, a chat, and real-time multiplayer online games!
